@@ -1,16 +1,15 @@
 #!/bin/bash
 
 BACKUP_DIR="$HOME/backup"
-DOTFILE_BACKUPS="$BACKUP_DIR/dotfiles"
 
 # Utilities
 function datetime() {
-    date +%Y-%m-%d_%H:%M:%S
+    date -u +%Y-%m-%dT%H:%M:%SZ
 }
 
 function ls_functions()
 {
-  functions | grep -P "^\w* \(\) \{" | grep -v ^_ | cut -d ' ' -f 1
+  functions | grep -E "^\w* \(\) \{" | grep -v ^_ | cut -d ' ' -f 1
 }
 
 function wgets()
@@ -45,55 +44,29 @@ function sshn() {
     tmux set-window-option synchronize-panes on > /dev/null
 }
 
-# Dotfiles
-
-function dotfiles_localize() {
-  for x in $(cat -)
-  do
-    echo "Moving .$x to .$x.local"
-    mv $HOME/$x $HOME/$x.local 
-  done
-}
-
-function dotfiles_unlocalize() {
-  for x in $(cat -)
-  do
-    echo "Moving .$x.local to .$x"
-    mv $HOME/$x.local $HOME/$x
-  done
-}
-
-function dotfiles_backup() {
-  for x in $(cat -)
-  do
-    local d=$DOTFILE_BACKUPS/`datetime` 
-    mkdir -p $d
-    echo "Copying $x to $d/dot$x.backup"
-    cp $HOME/$x $d/dot$x.backup 
-  done
-}
-
 # Git
 
 git-recursive () {
+  # Todo: make this work on Mac
   find -follow -name .git -type d -print -execdir git "$@" \;
 }
 
-# Brazil
+# Code
 
-function cd_pkg()
+function cd_repo()
 {
-  cd `ls -d /workplace/$USER/*/src/* | grep -i $@`
+  cd `ls -d $HOME/GitHub/* $HOME/GitHub/jumo/* | grep -i $@`
 }
 
-function pkgs()
+function repos()
 {
-  ls -d /workplace/$USER/*/src/* | grep -i $@
+  ls -d $HOME/GitHub/* $HOME/GitHub/jumo/* | grep -i $@
 }
 
 
 function sanegrep()
 {
+  # todo: doesn't work on Mac
   _pattern=$1
   grep -iEr --exclude *.js --exclude *.css --exclude *spec* --exclude tags $1 .
 }
