@@ -47,8 +47,7 @@ function sshn() {
 # Git
 
 git-recursive () {
-  # Todo: make this work on Mac
-  find -follow -name .git -type d -print -execdir git "$@" \;
+  find . -iname .git -type d -prune -print -execdir git "$@" \;
 }
 
 # Code
