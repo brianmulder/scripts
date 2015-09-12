@@ -62,12 +62,17 @@ function repos()
   ls -d $HOME/GitHub/* $HOME/GitHub/jumo/* | grep -i $@
 }
 
-
+# Still not as good as `git grep`
 function sanegrep()
 {
-  # todo: doesn't work on Mac
-  _pattern=$1
-  grep -iEr --exclude *.js --exclude *.css --exclude *spec* --exclude tags $1 .
+  case `uname` in
+    Darwin)
+      grep -iEr --exclude "*.js" --exclude "*.css" --exclude "*spec*" --exclude tags $1 .
+      ;;
+    Linux)
+      grep -iEr --exclude *.js --exclude *.css --exclude *spec* --exclude tags $1 .
+      ;;
+  esac
 }
 
 function kupata()
