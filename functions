@@ -54,7 +54,7 @@ git-recursive () {
 
 function cd_repo()
 {
-  cd `ls -d $HOME/GitHub/* $HOME/GitHub/jumo/* | grep -i $@`
+  cd `ls -d $HOME/Local/* $HOME/GitHub/F0rtyTw0/* $HOME/GitHub/jumo/* | grep -i $@`
 }
 
 function repos()
@@ -70,16 +70,32 @@ function sanegrep()
   grep -iEr --exclude *.js --exclude *.css --exclude *spec* --exclude tags $1 .
 }
 
-function virb()
+function vrex()
 {
   case `uname` in
     Darwin)
-      vim `find -E . -iregex ".*/$1\.rb"`
+      vim `find -E . -iregex $1`
       ;;
     Linux)
-      vim `find -regex ".*/$1\.rb$"`
+      vim `find -regex $1`
       ;;
   esac
+}
+
+function virb()
+{
+  vrex ".*/$1\.rb$"
+}
+
+function verb()
+{
+  vrex ".*/$1\.erb$"
+}
+
+# Not to be confused with github.com/LimpidTech/vimpy
+function vimpy()
+{
+  vrex ".*/$1\.py$"
 }
 
 function vimo()
