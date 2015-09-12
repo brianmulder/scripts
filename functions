@@ -49,6 +49,18 @@ git-recursive () {
   find . -iname .git -type d -prune -print -execdir git "$@" \;
 }
 
+function tagtime() {
+  date -u +%Y%m%dT%H%M%SZ
+}
+
+function bulk-tag()
+{
+  while read branch
+  do
+    git tag "`tagtime`_$branch" $branch
+  done
+}
+
 # Code
 
 function cd_repo()
