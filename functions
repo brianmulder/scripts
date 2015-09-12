@@ -70,16 +70,38 @@ function sanegrep()
   grep -iEr --exclude *.js --exclude *.css --exclude *spec* --exclude tags $1 .
 }
 
-function vrex()
+function kupata()
 {
   case `uname` in
     Darwin)
-      vim `find -E . -iregex $1`
+      find -E . -iname $1
       ;;
     Linux)
-      vim `find -regex $1`
+      find -iname $1
       ;;
   esac
+}
+
+function findrex()
+{
+  case `uname` in
+    Darwin)
+      find -E . -iregex $1
+      ;;
+    Linux)
+      find -iregex $1
+      ;;
+  esac
+}
+
+function vimo()
+{
+  vim `kupata $1`
+}
+
+function vrex()
+{
+  vim `findrex $1`
 }
 
 function virb()
@@ -96,16 +118,4 @@ function verb()
 function vimpy()
 {
   vrex ".*/$1\.py$"
-}
-
-function vimo()
-{
-  case `uname` in
-    Darwin)
-      vim `find -E . -iname $1`
-      ;;
-    Linux)
-      vim `find -iname $1`
-      ;;
-  esac
 }
