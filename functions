@@ -2,6 +2,13 @@
 
 # Utilities
 
+function work() {
+  if ! tmux attach-session -t work
+  then
+    tmux new-session -s work
+  fi
+}
+
 function datetime() {
     date -u +%Y-%m-%dT%H:%M:%SZ
 }
@@ -65,12 +72,12 @@ function bulk-tag()
 
 function cd_repo()
 {
-  cd `ls -d $HOME/Local/* $HOME/GitHub/F0rtyTw0/* $HOME/GitHub/jumo/* | grep -i $@`
+  cd `ls -d $HOME/code.local/*/* $HOME/github.com/*/* $HOME/code.br.zbi.cba/*/* | grep -i $@`
 }
 
-function repos()
+function ls_repos()
 {
-  ls -d $HOME/GitHub/* $HOME/GitHub/jumo/* | grep -i $@
+  ls -d $HOME/code.local/*/* $HOME/github.com/*/* $HOME/code.br.zbi.cba/*/* | grep -i $@
 }
 
 # Still not as good as `git grep`
