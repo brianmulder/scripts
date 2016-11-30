@@ -26,6 +26,26 @@ function wgets()
 
 # SSH
 
+function f_ssh_auth() {
+  eval `ssh-agent`
+  ssh-add
+}
+
+# Call this if the above has been blown away
+function f_ssh_reagent() {
+  for agent in /var/folders/zt/**/T/ssh-*/*; do
+      SSH_AUTH_SOCK=$agent
+      if ssh-add -l 2>&1 > /dev/null; then
+         echo Found working SSH Agent:
+         # Persist the socket for conveniance
+         ln -fs $SSH_AUTH_SOCK $HOME/.agent_ssh_auth_sock
+         ssh-add -l
+         return
+      fi
+  done
+  echo Cannot find ssh agent - maybe you should reconnect and forward it? ('f_ssh_auth' should do the trick)
+}
+
 function sshn() {
     [ -z $1 ] && { 
         echo "Please provide a session name, aborting."
@@ -132,6 +152,11 @@ function virb()
   vrex ".*/$1\.rb$"
 }
 
+function visc()
+{
+  vrex ".*/$1\.scala$"
+}
+
 function verb()
 {
   vrex ".*/$1\.erb$"
@@ -142,3 +167,16 @@ function vimpy()
 {
   vrex ".*/$1\.py$"
 }
+
+# help: parse a yaml file to JSON (helpful for jq usage)
+function yaml2json {
+  local file=${1}
+  cat $file | ruby -ryaml -rjson -e 'puts JSON.dump(YAML.load(STDIN.read))'
+}
+
+# Example usage:
+# rsync_git here/* there/
+function rsync_git {
+  rsync -avz --exclude ‘.DS_Store’ $@
+}
+
