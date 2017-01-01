@@ -31,7 +31,9 @@ function f_ssh_auth() {
   ssh-add
 }
 
-# Call this if the above has been blown away
+# Call this if the above ssh-agent is blown away
+# Add a line in your shell profile:
+# `SSH_AUTH_SOCK=~/.agent_ssh_auth_sock
 function f_ssh_reagent() {
   for agent in /var/folders/zt/**/T/ssh-*/*; do
       SSH_AUTH_SOCK=$agent
@@ -92,12 +94,12 @@ function bulk-tag()
 
 function cd_repo()
 {
-  cd `ls -d $HOME/code.local/*/* $HOME/github.com/*/* $HOME/code.br.zbi.cba/*/* | grep -i $@`
+  cd `ls -d $CODE_LOCATIONS | grep -i $@`
 }
 
 function ls_repos()
 {
-  ls -d $HOME/code.local/*/* $HOME/github.com/*/* $HOME/code.br.zbi.cba/*/* | grep -i $@
+  ls -d $CODE_LOCATIONS | grep -i $@
 }
 
 # Still not as good as `git grep`

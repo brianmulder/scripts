@@ -1,7 +1,0 @@
-#!/bin/bash
-
-while read project
-do
-  echo "Cloning $project"
-  git clone git@github.com:africanfinancebusiness/$project.git
-done
