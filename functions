@@ -92,16 +92,6 @@ function bulk-tag()
 
 # Code
 
-function cd_repo()
-{
-  cd `ls -d $CODE_LOCATIONS | grep -i $@`
-}
-
-function ls_repos()
-{
-  ls -d $CODE_LOCATIONS | grep -i $@
-}
-
 # Still not as good as `git grep`
 function sanegrep()
 {
