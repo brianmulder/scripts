@@ -74,6 +74,16 @@ function sshn() {
 
 # Git
 
+clone-git-repo() {
+  _url=${1?"No URL provided"}
+  _domain=$(echo $_url | awk -F/ '{print $3}')
+  _user=$(echo $_url | awk -F/ '{print $4}')
+  _repo_name=$(basename $(echo $_url | sed 's/\.git$//'))
+  _directory=$HOME/${_domain}/${_user}/${_repo_name}
+  mkdir -p $_directory
+  git clone $_url $_directory
+}
+
 git-recursive () {
   find . -iname .git -type d -prune -print -execdir git "$@" \;
 }
