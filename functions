@@ -18,6 +18,14 @@ function ls_functions()
   functions | grep -E "^\w* \(\) \{" | grep -v ^_ | cut -d ' ' -f 1
 }
 
+function proxy_clear()
+{
+  unset http_proxy
+  unset https_proxy
+  unset HTTP_PROXy
+  unset HTTPS_PROXy
+}
+
 function wgets()
 {
   local H='--header'
@@ -48,8 +56,9 @@ function f_ssh_reagent() {
   echo Cannot find ssh agent - maybe you should reconnect and forward it? ('f_ssh_auth' should do the trick)
 }
 
+# Example: cat hosts | sshn <fresh-session>
 function sshn() {
-    [ -z $1 ] && { 
+    [ -z $1 ] && {
         echo "Please provide a session name, aborting."
         return
     }
@@ -174,6 +183,12 @@ function vimpy()
 function yaml2json {
   local file=${1}
   cat $file | ruby -ryaml -rjson -e 'puts JSON.dump(YAML.load(STDIN.read))'
+}
+
+# help: JSON to YAML (helpful for jq usage)
+function json2yaml {
+  local file=${1}
+  cat $file | ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))'
 }
 
 # Example usage:
