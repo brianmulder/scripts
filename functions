@@ -37,23 +37,25 @@ function wgets()
 function f_ssh_auth() {
   eval `ssh-agent`
   ssh-add
+  f_ssh_reagent
 }
 
 # Call this if the above ssh-agent is blown away
-# Add a line in your shell profile:
+# Needs a line in your shell profile:
 # `SSH_AUTH_SOCK=~/.agent_ssh_auth_sock
 function f_ssh_reagent() {
-  for agent in /var/folders/zt/**/T/ssh-*/*; do
+  for agent in /var/folders/*/*/*/ssh-*/*; do
       SSH_AUTH_SOCK=$agent
       if ssh-add -l 2>&1 > /dev/null; then
          echo Found working SSH Agent:
+         echo "Keeping a handle to the socket at ~/.agent_ssh_auth_sock"
          # Persist the socket for conveniance
          ln -fs $SSH_AUTH_SOCK $HOME/.agent_ssh_auth_sock
          ssh-add -l
          return
       fi
   done
-  echo Cannot find ssh agent - maybe you should reconnect and forward it? ('f_ssh_auth' should do the trick)
+  echo "Cannot find ssh agent - maybe you should reconnect and forward it? ('f_ssh_auth' should do the trick)"
 }
 
 # Example: cat hosts | sshn <fresh-session>
