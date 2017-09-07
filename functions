@@ -22,8 +22,8 @@ function proxy_clear()
 {
   unset http_proxy
   unset https_proxy
-  unset HTTP_PROXy
-  unset HTTPS_PROXy
+  unset HTTP_PROXY
+  unset HTTPS_PROXY
 }
 
 function wgets()
